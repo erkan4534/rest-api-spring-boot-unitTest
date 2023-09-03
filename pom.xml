@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.thinkconstructive</groupId>
-	<artifactId>rest-demo</artifactId>
+	<artifactId>rest-api-spring-boot-unitTest</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>rest-api-spring-boot-unitTest</name>
 	<description>Demo project for Spring Boot</description>
