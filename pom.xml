@@ -11,7 +11,7 @@
 	<groupId>com.thinkconstructive</groupId>
 	<artifactId>rest-demo</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>rest-demo</name>
+	<name>rest-api-spring-boot-unitTest</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>18</java.version>
