@@ -33,7 +33,6 @@ class VendorServiceImplTestToMock {
 
     @BeforeEach
     void setUp() {
-       // vendorRepository = mock(VendorRepository.class);
        // vendorService = new VendorServiceImpl(vendorRepository);
         vendor = new Vendor("1","Amazon","USA","3232");
     }

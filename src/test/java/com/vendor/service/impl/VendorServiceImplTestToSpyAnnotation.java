@@ -5,43 +5,28 @@ import com.vendor.repository.VendorRepository;
 import com.vendor.service.VendorService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class VendorServiceImplTestToSpy {
-    //spy her zaman gerçek nesneyi çağırır ama isterseniz farklı davranış verebilirsiniz.
-    //Hem gerçek nesneyi  hem de mock nesnesini çağırabiliyorsunuz yani  istediğiniz gibi
-    //davranış verebiliyorsunuz.
+public class VendorServiceImplTestToSpyAnnotation {
 
     @Mock
     private VendorRepository vendorRepository;
 
-
-    @Test
-    void testUpdateVendor() {
-
-        Vendor firstVendor = new Vendor("2","Google","USA","1234");
-        Vendor secondVendor = new Vendor("1","Amazon","USA","3232");
-
-        VendorService vendorService = spy(new VendorServiceImpl(vendorRepository));
-       // assertThat(vendorService.updateVendor(firstVendor)).isEqualTo("Success");
-        vendorService.updateVendor(firstVendor);
-
-        doReturn("Success").when(vendorService).updateVendor(secondVendor);
-        vendorService.updateVendor(secondVendor);
-    }
+    @Spy
+    private VendorServiceImpl vendorService = new VendorServiceImpl();
 
     @Test
     void testUpdateVendorSecondCondition() {
 
-
         Vendor firstVendor = new Vendor("2","Google","USA","1234");
         Vendor secondVendor = new Vendor("1","Amazon","USA","3232");
         Vendor thirdVendor = new Vendor("3","Amazon","USA","3232");
-
-        VendorService vendorService = spy(new VendorServiceImpl(vendorRepository));
 
         doReturn("Success").when(vendorService).updateVendor(firstVendor);
         vendorService.updateVendor(firstVendor);
@@ -52,5 +37,4 @@ public class VendorServiceImplTestToSpy {
         doCallRealMethod().when(vendorService).updateVendor(thirdVendor);
         vendorService.updateVendor(thirdVendor);
     }
-
 }
