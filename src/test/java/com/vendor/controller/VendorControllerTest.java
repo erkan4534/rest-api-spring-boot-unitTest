@@ -22,10 +22,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(VendorController.class)
-@AllArgsConstructor
 class VendorControllerTest {
 
-    private final MockMvc mockMvc;
+    @Autowired
+    MockMvc mockMvc;
 
     @MockBean
     private VendorService vendorService;
