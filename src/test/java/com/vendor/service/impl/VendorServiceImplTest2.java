@@ -1,48 +1,77 @@
 package com.vendor.service.impl;
 
+import com.vendor.exception.VendorNotFoundException;
 import com.vendor.model.Vendor;
 import com.vendor.repository.VendorRepository;
 import com.vendor.service.VendorService;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+
+import java.util.Optional;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(value = { MockitoExtension.class })
-@DataJpaTest
 public class VendorServiceImplTest2 {
 
-    @Spy
-    private VendorService vendorService;
 
-    @Autowired
-    private VendorRepository vendorRepository;
-
-    Vendor vendor;
+    private Vendor vendor;
 
     @BeforeEach
     void setUp() {
-        vendor= new Vendor("1","Amazon","USA","1111");
-        vendorRepository.save(vendor);
+        vendor = new Vendor("1","Amazon","USA","3232");
     }
 
-    @AfterEach
-    void tearDown() {
-        //vendorRepository.deleteAll();
+
+    @Test
+    void testDeleteVendor() {
+
+        VendorRepository vendorRepository= mock(VendorRepository.class);
+        VendorService vendorService = new VendorServiceImpl(vendorRepository);
+
+        doNothing().when(vendorRepository).deleteById(any());
+        assertThat(vendorService.deleteVendor("1")).isEqualTo("Success");
     }
 
     @Test
-    void testCreateVendor() {
-       //vendor = new Vendor("1","Amazon","USA","3232");
-       // String result= vendorService.createVendor(vendor);
-       // System.out.println(result);
+    void testGetVendor() {
 
-        vendor = vendorService.getVendor("1");
-        System.out.println(vendor);
+        VendorRepository vendorRepository= mock(VendorRepository.class);
+        VendorService vendorService = new VendorServiceImpl(vendorRepository);
+
+        doReturn(Optional.ofNullable(vendor)).when(vendorRepository).findById("1");
+        assertThat(vendorService.getVendor("1").getName()).isEqualTo(vendor.getName());
+    }
+
+
+    @Test
+    void testGetVendorThrows() {
+
+        VendorRepository vendorRepository= mock(VendorRepository.class);
+        VendorService vendorService = new VendorServiceImpl(vendorRepository);
+
+        doReturn(Optional.ofNullable(vendor)).when(vendorRepository).findById("1");
+        assertThat(vendorService.getVendor("1").getName()).isEqualTo(vendor.getName());
+
+        assertThrows(VendorNotFoundException.class,()->vendorService.getVendor("2"));
+
+    }
+
+
+    @Test
+    void testGetVendorThrowsOther() {
+
+        VendorRepository vendorRepository= mock(VendorRepository.class);
+        VendorService vendorService = new VendorServiceImpl(vendorRepository);
+
+        doThrow(new VendorNotFoundException("Requested Vendor does not exist"))
+         .when(vendorRepository).findById("2");
+        assertThrows(VendorNotFoundException.class,()->vendorService.getVendor("2"));
     }
 
 }

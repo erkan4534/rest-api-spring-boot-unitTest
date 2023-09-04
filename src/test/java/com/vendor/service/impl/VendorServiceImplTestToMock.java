@@ -2,14 +2,13 @@ package com.vendor.service.impl;
 
 import com.vendor.model.Vendor;
 import com.vendor.repository.VendorRepository;
-import com.vendor.service.VendorService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Answers;
 import org.mockito.ArgumentCaptor;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,17 +17,24 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class VendorServiceImplTest {
+class VendorServiceImplTestToMock {
 
     @Mock
     private VendorRepository vendorRepository;
-    private VendorService vendorService;
-    Vendor vendor;
 
+    @InjectMocks
+    private VendorServiceImpl vendorService;
+
+    // private VendorRepository vendorRepository;
+
+    // private VendorService vendorService;
+
+    private Vendor vendor;
 
     @BeforeEach
     void setUp() {
-        vendorService = new VendorServiceImpl(vendorRepository);
+       // vendorRepository = mock(VendorRepository.class);
+       // vendorService = new VendorServiceImpl(vendorRepository);
         vendor = new Vendor("1","Amazon","USA","3232");
     }
 
@@ -77,7 +83,6 @@ class VendorServiceImplTest {
     @Test
     void testCreateVendorForArgument() {
         //given
-
         //when
         vendorService.createVendor(vendor);
         //then
@@ -85,8 +90,5 @@ class VendorServiceImplTest {
         verify(vendorRepository).save(vendorArgumentCaptor.capture());
         Vendor capturedVendor= vendorArgumentCaptor.getValue();
         assertThat(capturedVendor).isEqualTo(vendor);
-
     }
-
-
 }
