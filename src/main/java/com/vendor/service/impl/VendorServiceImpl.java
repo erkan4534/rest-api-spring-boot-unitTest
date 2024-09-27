@@ -7,6 +7,7 @@ import com.vendor.service.VendorService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -34,9 +35,10 @@ public class VendorServiceImpl implements VendorService {
 
     @Override
     public Vendor getVendor(String id) {
-        if(vendorRepository.findById(id).isEmpty())
+       Optional<Vendor> vendorOptional = vendorRepository.findById(id);
+        if(vendorOptional.isEmpty())
             throw new VendorNotFoundException("Requested Vendor does not exist");
-        return vendorRepository.findById(id).get();
+        return vendorOptional.get();
     }
 
     @Override
